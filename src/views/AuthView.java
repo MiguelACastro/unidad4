@@ -21,14 +21,18 @@ import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.JRadioButton;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
@@ -150,7 +154,7 @@ public class AuthView extends JFrame{
 			
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				
+				register();
 			}
 			
 			@Override
@@ -225,6 +229,210 @@ public class AuthView extends JFrame{
 	}
 
 	public void register() {
+		this.getContentPane().removeAll();
+		revalidate();
+		repaint();
+		JPanel panelRegistro = new JPanel();
+		
+		panelRegistro.setLayout(null);
+		panelRegistro.setPreferredSize(new Dimension(500, 500));
+		
+		JLabel etiqueta = new JLabel("Registro");
+		etiqueta.setFont(fuenteGrande);
+		etiqueta.setBounds(172, 30, 140, 30);
+		etiqueta.setOpaque(true);
+		etiqueta.setBackground(Color.ORANGE);		
+		etiqueta.setHorizontalAlignment(JLabel.CENTER);
+		
+		panelRegistro.add(etiqueta);
+		
+		//Nombre de usuario
+		JLabel textoUsuario = new JLabel("Nombre de usuario");
+		textoUsuario.setFont(fuenteMediana);
+		textoUsuario.setBounds(140, 80, 120, 20);
+		textoUsuario.setBackground(Color.ORANGE);
+		textoUsuario.setOpaque(true);
+		panelRegistro.add(textoUsuario);
+		
+		JTextField campoUsuario = new JTextField();
+		campoUsuario.setBounds(140, 100, 204, 20);
+		panelRegistro.add(campoUsuario);
+		
+		
+		//Biografia
+		JLabel textoBio = new JLabel("Biografia");
+		textoBio.setFont(fuenteMediana);
+		textoBio.setBounds(140, 120, 120, 20);
+		panelRegistro.add(textoBio);
+		
+		JTextArea campoBio = new JTextArea();
+		campoBio.setBounds(140, 140, 204, 80);
+		campoBio.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		panelRegistro.add(campoBio);
+		
+		
+		//Preferencias
+		JLabel textoPreferencias= new JLabel("Preferencias");
+		textoPreferencias.setFont(fuenteMediana);
+		textoPreferencias.setBounds(140, 220, 120, 20);
+		panelRegistro.add(textoPreferencias);
+					
+		JCheckBox checkBoxDulce = new JCheckBox("Dulce");
+		checkBoxDulce.setFont(fuenteMediana);
+		checkBoxDulce.setBounds(140, 240, 80, 20);
+		panelRegistro.add(checkBoxDulce);
+		
+		JCheckBox checkBoxSalado = new JCheckBox("Salado");
+		checkBoxSalado.setFont(fuenteMediana);
+		checkBoxSalado.setBounds(220, 240, 80, 20);
+		panelRegistro.add(checkBoxSalado);
+		
+		JCheckBox checkBoxSaludable = new JCheckBox("Saludable");
+		checkBoxSaludable.setFont(fuenteMediana);
+		checkBoxSaludable.setBounds(300, 240, 100, 20);
+		panelRegistro.add(checkBoxSaludable);
+		
+		
+		//Terminos
+		JLabel textoTerminos = new JLabel("Terminos");
+		textoTerminos.setFont(fuenteMediana);
+		textoTerminos.setBounds(140, 260, 60, 20);
+		textoTerminos.setBackground(Color.ORANGE);
+		textoTerminos.setOpaque(true);
+		panelRegistro.add(textoTerminos);
+		
+		JRadioButton botonAceptar = new JRadioButton("Acepto los términos");
+		botonAceptar.setFont(fuenteChica);
+		botonAceptar.setBounds(140, 280, 120, 20);
+		botonAceptar.setActionCommand("Si");
+		panelRegistro.add(botonAceptar);
+		
+		JRadioButton botonRechazar = new JRadioButton("No acepto los términos");
+		botonRechazar.setFont(fuenteChica);
+		botonRechazar.setBounds(260, 280, 130, 20);
+		botonRechazar.setActionCommand("No");
+		panelRegistro.add(botonRechazar);
+		
+		ButtonGroup opcionesTerminos = new ButtonGroup();
+		opcionesTerminos.add(botonAceptar);
+		opcionesTerminos.add(botonRechazar);
+		
+		
+		//Elegir colonia
+		JLabel textoColonia = new JLabel("Colonia");
+		textoColonia.setFont(fuenteMediana);
+		textoColonia.setBounds(140, 300, 50, 20);
+		textoColonia.setBackground(Color.ORANGE);
+		textoColonia.setBackground(Color.ORANGE);
+		textoColonia.setOpaque(true);
+		panelRegistro.add(textoColonia);
+		
+		String[] coloniasDataset = {"Ayuntamiento", "Balandra", "Calafia", "Diana Laura", "El Progreso"};
+		
+		JComboBox<String> elegirColonia = new JComboBox<String>(coloniasDataset);
+		elegirColonia.setBounds(140, 320, 120, 30);
+		panelRegistro.add(elegirColonia);
+		
+		//Boton Crear Cuenta
+		JButton botonRegistro = new JButton("Crear Cuenta");
+		botonRegistro.setFont(fuenteMediana);
+		botonRegistro.setBounds(182, 360, 120, 30);
+		panelRegistro.add(botonRegistro);
+		JFrame frame = this;
+		botonRegistro.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				boolean flagUsuario = false;
+				boolean flagBio = false;
+				boolean flagPreferencias = false;
+				boolean flagTerminos = false;;
+				if(campoUsuario.getText().length() == 0 || campoUsuario.getText().chars().anyMatch(c -> c == ' ')) {
+					campoUsuario.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
+					flagUsuario = false;
+				} else {
+					campoUsuario.setBorder(BorderFactory.createLineBorder(Color.GREEN, 2));
+					flagUsuario = true;
+				}
+				
+				if(campoBio.getText().length() > 0 && campoBio.getText().length() < 5) {
+					campoBio.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
+					flagBio = false;
+				} else {
+					campoBio.setBorder(BorderFactory.createLineBorder(Color.GREEN, 2));
+					flagBio = true;
+				}
+				
+				if(!checkBoxDulce.isSelected() && !checkBoxSalado.isSelected() && !checkBoxSaludable.isSelected()) {
+					textoPreferencias.setBorder(BorderFactory.createLineBorder(Color.RED, 3));
+					flagPreferencias = false;
+				} else {
+					textoPreferencias.setBorder(BorderFactory.createLineBorder(Color.GREEN, 3));
+					flagPreferencias = true;
+				}
+				
+				if(opcionesTerminos.getSelection() == null || opcionesTerminos.getSelection().getActionCommand().equals("No")) {
+					textoTerminos.setBorder(BorderFactory.createLineBorder(Color.RED, 3));
+					flagTerminos = false;
+				} else {
+					textoTerminos.setBorder(BorderFactory.createLineBorder(Color.GREEN, 3));
+					flagTerminos = true;
+				}
+				if(flagUsuario && flagBio && flagPreferencias && flagTerminos) {
+					String usuario = campoUsuario.getText();
+					String bio = campoBio.getText();
+					StringBuilder preferencias = new StringBuilder();
+					if(checkBoxDulce.isSelected()) {
+						preferencias.append("Dulce, ");
+					}
+					if(checkBoxSalado.isSelected()) {
+						preferencias.append("Salado, ");
+					}
+					if(checkBoxSaludable.isSelected()) {
+						preferencias.append("Saludable, ");
+					}
+					String colonia = (String) elegirColonia.getSelectedItem();
+					
+					functions.registro(usuario, bio, preferencias.toString(), colonia);
+					
+					JOptionPane.showMessageDialog(frame, "Se ha registrado exitosamente", "Registro Exitoso", JOptionPane.INFORMATION_MESSAGE);
+				}
+			}
+		});
+		
+		JLabel etiquetaCrearCuenta = new JLabel("¿Ya tiene una cuenta? Iniciar sesión");
+		etiquetaCrearCuenta.setFont(fuenteChica);
+		etiquetaCrearCuenta.setBounds(170, 400, 160, 20);
+		panelRegistro.add(etiquetaCrearCuenta);
+		
+		etiquetaCrearCuenta.addMouseListener(new MouseListener() {
+			
+			
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				etiquetaCrearCuenta.setCursor(new Cursor(Cursor.HAND_CURSOR));
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				login();
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {}
+			@Override
+			public void mouseReleased(MouseEvent e) {}
+			@Override
+			public void mousePressed(MouseEvent e) {}
+		});
+		this.add(panelRegistro);
+		
+		this.setMinimumSize(new Dimension(500,500));
+		this.setSize(getMinimumSize());
+		this.setLocationRelativeTo(null);
+		this.revalidate();
+		this.repaint();
 		
 	}
 
