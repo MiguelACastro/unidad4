@@ -34,6 +34,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import controllers.AuthController;
@@ -204,7 +205,7 @@ public class AuthView extends JFrame{
 				
 				if(flag1 && flag2) {
 					if(functions.autenticar(campoUsuario.getText(), paswd)) {
-						JOptionPane.showMessageDialog(null, "Bienvenido!", "Credenciales correctas", JOptionPane.INFORMATION_MESSAGE);
+						home();
 					}
 					else {
 						JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos", "Credenciales incorrectas", JOptionPane.ERROR_MESSAGE);
@@ -222,7 +223,7 @@ public class AuthView extends JFrame{
 		panelFondo.add(panelInterfaz, BorderLayout.CENTER);
 		this.add(panelFondo);
 		this.pack();
-		this.setMinimumSize(new Dimension(900,300));
+		this.setMinimumSize(new Dimension(900,600));
 		this.setLocationRelativeTo(null);
 		
 		
@@ -406,9 +407,6 @@ public class AuthView extends JFrame{
 		panelRegistro.add(etiquetaCrearCuenta);
 		
 		etiquetaCrearCuenta.addMouseListener(new MouseListener() {
-			
-			
-			
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				etiquetaCrearCuenta.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -433,7 +431,32 @@ public class AuthView extends JFrame{
 		this.setLocationRelativeTo(null);
 		this.revalidate();
 		this.repaint();
-		
 	}
 
+	public void home( ) {
+		
+		JPanel panelHome = new JPanel(new BorderLayout());
+		panelHome.setPreferredSize(new Dimension(600,600));
+		
+		JLabel labelTitulo = new JLabel("Bienvenido!");
+		labelTitulo.setHorizontalAlignment(SwingConstants.CENTER);
+		labelTitulo.setFont(fuenteTitulo);
+		panelHome.add(labelTitulo, BorderLayout.NORTH);
+		
+		JButton logout = new JButton("Logout");
+		logout.setPreferredSize(new Dimension(80, 50));
+		logout.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				login();
+			}
+		});
+		panelHome.add(logout, BorderLayout.SOUTH);
+		
+		this.getContentPane().removeAll();
+		this.add(panelHome);
+		this.pack();
+		this.setLocationRelativeTo(null);
+	}
 }

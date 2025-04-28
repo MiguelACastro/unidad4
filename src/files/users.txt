@@ -1,0 +1,2 @@
+MiguelACastro,mcastro_23@alu.uabcs.mx,123456789,estudiante
+Osy,osy123@gmail.com,qwerty,admin
