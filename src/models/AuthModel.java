@@ -1,7 +1,10 @@
 package models;
 
 import java.io.BufferedReader;
+import java.io.FileWriter;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 
 public class AuthModel {
 
@@ -16,9 +19,9 @@ public class AuthModel {
 			
 			String row;
 			while((row = userReader.readLine()) != null) {
-				String[] valores = row.split(",");
-								
-				if(valores[0].equals(user) && valores[2].equals(password)) {
+				String[] valores = row.split("\\|");
+	
+				if(valores[5].equals(user) && valores[6].equals(password)) {
 					return true;
 				}
 			}
@@ -31,8 +34,18 @@ public class AuthModel {
 		
 		return false;
 	}
-	public void registro(String user, String biografia, String preferencias, String colonia) {
-		System.out.println("Usuario: %s, Biografia: %s, Preferencias: %sColonia: %s"
-				.formatted(user, biografia, preferencias, colonia));
+	public void registro(String nombre, String apellido, String empresa, String ambito, 
+			String cargo, String usuario, String password,String correo ) {
+		try {
+			FileWriter file = new FileWriter("src/files/users.txt", true);
+			PrintWriter userWriter = new PrintWriter(file);
+			
+			userWriter.println("%s|%s|%s|%s|%s|%s|%s|%s"
+					.formatted(nombre, apellido, empresa, ambito, cargo, usuario, password, correo));
+			
+			userWriter.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

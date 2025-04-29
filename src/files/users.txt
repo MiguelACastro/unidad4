@@ -1,2 +1,2 @@
-MiguelACastro,mcastro_23@alu.uabcs.mx,123456789,estudiante
-Osy,osy123@gmail.com,qwerty,admin
+Miguel|Castro|UABCS|Educacion|Estudiante|MiguelACastro|123?|mcastro_23@alu.uabcs.mx
+Juan|Perez|UABCS|Educacion|Profesor|JuanP|Juan123%|juanper@uabcs.mx

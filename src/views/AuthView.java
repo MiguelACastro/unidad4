@@ -35,6 +35,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
 import controllers.AuthController;
@@ -196,7 +197,7 @@ public class AuthView extends JFrame{
 				}
 				
 				String paswd = new String(campoPassword.getPassword()); 
-				if(paswd.length() < 6 || paswd.chars().anyMatch(c->c ==' ')) {
+				if(paswd.length() == 0 || paswd.chars().anyMatch(c->c ==' ')) {
 					campoPassword.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
 				} else {
 					campoPassword.setBorder(BorderFactory.createLineBorder(Color.GREEN, 2));
@@ -234,9 +235,10 @@ public class AuthView extends JFrame{
 		revalidate();
 		repaint();
 		JPanel panelRegistro = new JPanel();
+	
 		
 		panelRegistro.setLayout(null);
-		panelRegistro.setPreferredSize(new Dimension(500, 500));
+		panelRegistro.setPreferredSize(new Dimension(800, 800));
 		
 		JLabel etiqueta = new JLabel("Registro");
 		etiqueta.setFont(fuenteGrande);
@@ -247,70 +249,120 @@ public class AuthView extends JFrame{
 		
 		panelRegistro.add(etiqueta);
 		
-		//Nombre de usuario
-		JLabel textoUsuario = new JLabel("Nombre de usuario");
+		//Nombre
+		JLabel textonNombre = new JLabel("Nombre");
+		textonNombre.setFont(fuenteMediana);
+		textonNombre.setBounds(140, 80, 120, 20);
+		panelRegistro.add(textonNombre);
+		
+		JTextField campoNombre = new JTextField();
+		campoNombre.setBounds(140, 100, 204, 20);
+		campoNombre.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		panelRegistro.add(campoNombre);
+		
+		//Apellidos
+		JLabel textoApellidos = new JLabel("Apellidos");
+		textoApellidos.setFont(fuenteMediana);
+		textoApellidos.setBounds(140, 120, 120, 20);
+		panelRegistro.add(textoApellidos);
+		
+		JTextField campoApellidos = new JTextField();
+		campoApellidos.setBounds(140, 140, 204, 20);
+		campoApellidos.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		panelRegistro.add(campoApellidos);
+		
+		//Empresa
+		JLabel textoEmpresa = new JLabel("Empresa");
+		textoEmpresa.setFont(fuenteMediana);
+		textoEmpresa.setBounds(140, 160, 120, 20);
+		panelRegistro.add(textoEmpresa);
+		
+		JTextField campoEmpresa = new JTextField();
+		campoEmpresa.setBounds(140, 180, 204, 20);
+		campoEmpresa.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		panelRegistro.add(campoEmpresa);
+		
+		//Elegir Ambito
+		JLabel textoAmbito = new JLabel("Colonia");
+		textoAmbito.setFont(fuenteMediana);
+		textoAmbito.setBounds(140, 200, 50, 20);
+		panelRegistro.add(textoAmbito);
+		
+		String[] ambitoDataset = {"Tecnologia", "Educacion", "Comercio", "Salud", "Otro"};
+		
+		JComboBox<String> elegirAmbito = new JComboBox<String>(ambitoDataset);
+		elegirAmbito.setBounds(140, 220, 120, 20);
+		panelRegistro.add(elegirAmbito);
+		
+		//Cargo
+		JLabel textoCargo = new JLabel("Cargo");
+		textoCargo.setFont(fuenteMediana);
+		textoCargo.setBounds(140, 240, 120, 20);
+		panelRegistro.add(textoCargo);
+		
+		JTextField campoCargo = new JTextField();
+		campoCargo.setBounds(140, 260, 204, 20);
+		campoCargo.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		panelRegistro.add(campoCargo);
+		
+		//Usuario
+		JLabel textoUsuario = new JLabel("Nombre de Usuario");
 		textoUsuario.setFont(fuenteMediana);
-		textoUsuario.setBounds(140, 80, 120, 20);
-		textoUsuario.setBackground(Color.ORANGE);
-		textoUsuario.setOpaque(true);
+		textoUsuario.setBounds(140, 280, 120, 20);
 		panelRegistro.add(textoUsuario);
 		
 		JTextField campoUsuario = new JTextField();
-		campoUsuario.setBounds(140, 100, 204, 20);
+		campoUsuario.setBounds(140, 300, 204, 20);
+		campoUsuario.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		panelRegistro.add(campoUsuario);
 		
+		//Password
+		JLabel textoPassword = new JLabel("Contraseña");
+		textoPassword.setFont(fuenteMediana);
+		textoPassword.setBounds(140, 320, 120, 20);
+		panelRegistro.add(textoPassword);
 		
-		//Biografia
-		JLabel textoBio = new JLabel("Biografia");
-		textoBio.setFont(fuenteMediana);
-		textoBio.setBounds(140, 120, 120, 20);
-		panelRegistro.add(textoBio);
+		JPasswordField campoPassword = new JPasswordField();
+		campoPassword.setBounds(140, 340, 204, 20);
+		campoPassword.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		panelRegistro.add(campoPassword);
 		
-		JTextArea campoBio = new JTextArea();
-		campoBio.setBounds(140, 140, 204, 80);
-		campoBio.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-		panelRegistro.add(campoBio);
+		JLabel textoRepetir = new JLabel("Repetir contraseña");
+		textoRepetir.setFont(fuenteMediana);
+		textoRepetir.setBounds(140, 360, 120, 20);
+		panelRegistro.add(textoRepetir);
 		
+		JPasswordField campoRepetir = new JPasswordField();
+		campoRepetir.setBounds(140, 380, 204, 20);
+		campoRepetir.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		panelRegistro.add(campoRepetir);
 		
-		//Preferencias
-		JLabel textoPreferencias= new JLabel("Preferencias");
-		textoPreferencias.setFont(fuenteMediana);
-		textoPreferencias.setBounds(140, 220, 120, 20);
-		panelRegistro.add(textoPreferencias);
-					
-		JCheckBox checkBoxDulce = new JCheckBox("Dulce");
-		checkBoxDulce.setFont(fuenteMediana);
-		checkBoxDulce.setBounds(140, 240, 80, 20);
-		panelRegistro.add(checkBoxDulce);
+		JLabel textocorreo = new JLabel("correo");
+		textocorreo.setFont(fuenteMediana);
+		textocorreo.setBounds(140, 400, 120, 20);
+		panelRegistro.add(textocorreo);
 		
-		JCheckBox checkBoxSalado = new JCheckBox("Salado");
-		checkBoxSalado.setFont(fuenteMediana);
-		checkBoxSalado.setBounds(220, 240, 80, 20);
-		panelRegistro.add(checkBoxSalado);
-		
-		JCheckBox checkBoxSaludable = new JCheckBox("Saludable");
-		checkBoxSaludable.setFont(fuenteMediana);
-		checkBoxSaludable.setBounds(300, 240, 100, 20);
-		panelRegistro.add(checkBoxSaludable);
-		
-		
+		JTextField campocorreo = new JTextField();
+		campocorreo.setBounds(140, 420, 204, 20);
+		campocorreo.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		panelRegistro.add(campocorreo);
 		//Terminos
+		
 		JLabel textoTerminos = new JLabel("Terminos");
 		textoTerminos.setFont(fuenteMediana);
-		textoTerminos.setBounds(140, 260, 60, 20);
-		textoTerminos.setBackground(Color.ORANGE);
+		textoTerminos.setBounds(140, 440, 60, 20);
 		textoTerminos.setOpaque(true);
 		panelRegistro.add(textoTerminos);
 		
 		JRadioButton botonAceptar = new JRadioButton("Acepto los términos");
 		botonAceptar.setFont(fuenteChica);
-		botonAceptar.setBounds(140, 280, 120, 20);
+		botonAceptar.setBounds(140, 460, 120, 20);
 		botonAceptar.setActionCommand("Si");
 		panelRegistro.add(botonAceptar);
 		
 		JRadioButton botonRechazar = new JRadioButton("No acepto los términos");
 		botonRechazar.setFont(fuenteChica);
-		botonRechazar.setBounds(260, 280, 130, 20);
+		botonRechazar.setBounds(260, 460, 130, 20);
 		botonRechazar.setActionCommand("No");
 		panelRegistro.add(botonRechazar);
 		
@@ -319,58 +371,110 @@ public class AuthView extends JFrame{
 		opcionesTerminos.add(botonRechazar);
 		
 		
-		//Elegir colonia
-		JLabel textoColonia = new JLabel("Colonia");
-		textoColonia.setFont(fuenteMediana);
-		textoColonia.setBounds(140, 300, 50, 20);
-		textoColonia.setBackground(Color.ORANGE);
-		textoColonia.setBackground(Color.ORANGE);
-		textoColonia.setOpaque(true);
-		panelRegistro.add(textoColonia);
-		
-		String[] coloniasDataset = {"Ayuntamiento", "Balandra", "Calafia", "Diana Laura", "El Progreso"};
-		
-		JComboBox<String> elegirColonia = new JComboBox<String>(coloniasDataset);
-		elegirColonia.setBounds(140, 320, 120, 30);
-		panelRegistro.add(elegirColonia);
-		
 		//Boton Crear Cuenta
 		JButton botonRegistro = new JButton("Crear Cuenta");
 		botonRegistro.setFont(fuenteMediana);
-		botonRegistro.setBounds(182, 360, 120, 30);
+		botonRegistro.setBounds(182, 480, 120, 30);
 		panelRegistro.add(botonRegistro);
 		JFrame frame = this;
 		botonRegistro.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				boolean flagUsuario = false;
-				boolean flagBio = false;
-				boolean flagPreferencias = false;
-				boolean flagTerminos = false;;
-				if(campoUsuario.getText().length() == 0 || campoUsuario.getText().chars().anyMatch(c -> c == ' ')) {
-					campoUsuario.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
-					flagUsuario = false;
+				boolean flagNombre, flagApellidos, flagEmpresa, flagCargo, 
+				flagUsuario, flagPassword,flagRepetir, flagcorreo, flagTerminos;
+				
+				String nombre = campoNombre.getText();
+				String apellidos = campoApellidos.getText();
+				String empresa = campoEmpresa.getText();
+				String ambito = (String) elegirAmbito.getSelectedItem();
+				String cargo = campoCargo.getText();
+				String usuario = campoUsuario.getText();
+				String password = String.valueOf(campoPassword.getPassword());
+				String repetir = String.valueOf(campoRepetir.getPassword());
+				String correo = campocorreo.getText();
+				
+				StringBuilder error = new StringBuilder();
+				
+				final String LETRAS_Y_ESPACIOS = "[A-Za-zÁÉÍÓÚáéíóúÑñ\\s]+";
+				final String LETRAS_NUMEROS_Y_ESPACIOS = "[A-Za-zÁÉÍÓÚáéíóúÑñ0-9\\s]+";
+				final String VALID_PASSWORD = "(?=.*[!¡\"#$%&/()=?¿{}\\[\\]^\\-_.,;:*+<>'\\\\])"
+						+ "[A-Za-z0-9!¡\"#$%&/()=?¿{}\\[\\]^\\-_.,;:*+<>'\\\\]+";
+				// https://www.baeldung.com/java-email-validation-regex
+				final String VALID_EMAIL = "^[a-zA-Z0-9_!#$%&’*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$";
+				
+				if(!nombre.isBlank() && nombre.matches(LETRAS_Y_ESPACIOS)) {
+					campoNombre.setBorder(BorderFactory.createLineBorder(Color.GREEN, 2));
+					flagNombre = true;
 				} else {
+					campoNombre.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
+					flagNombre = false;
+					error.append("Nombre solo permite letras y espacios\n");
+				}
+				
+				if(!apellidos.isBlank() && apellidos.matches(LETRAS_Y_ESPACIOS)) {
+					campoApellidos.setBorder(BorderFactory.createLineBorder(Color.GREEN, 2));
+					flagApellidos = true;
+				} else {
+					campoApellidos.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
+					flagApellidos = false;
+					error.append("Apellidos solo permite letras y espacios\n");
+				}
+				
+				if(!empresa.isBlank() && empresa.matches(LETRAS_NUMEROS_Y_ESPACIOS)) {
+					campoEmpresa.setBorder(BorderFactory.createLineBorder(Color.GREEN, 2));
+					flagEmpresa = true;
+				} else {
+					campoEmpresa.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
+					flagEmpresa = false;
+					error.append("Empresa solo permite letras, numeros y espacios\n");
+				}
+				
+				if(!cargo.isBlank() && cargo.matches(LETRAS_Y_ESPACIOS)) {
+					campoCargo.setBorder(BorderFactory.createLineBorder(Color.GREEN, 2));
+					flagCargo = true;
+				} else {
+					campoCargo.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
+					flagCargo = false;
+					error.append("Cargo solo permite letras y espacios\n");
+				}
+				
+				if(!usuario.isBlank() && usuario.matches(LETRAS_NUMEROS_Y_ESPACIOS)) {
 					campoUsuario.setBorder(BorderFactory.createLineBorder(Color.GREEN, 2));
 					flagUsuario = true;
+				} else {
+					campoUsuario.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
+					flagUsuario = false;
+					error.append("Usuario solo permite letras, numeros y espacios\n");
 				}
 				
-				if(campoBio.getText().length() > 0 && campoBio.getText().length() < 5) {
-					campoBio.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
-					flagBio = false;
+				if(!password.isBlank() && password.matches(VALID_PASSWORD)) {
+					campoPassword.setBorder(BorderFactory.createLineBorder(Color.GREEN, 2));
+					flagPassword = true;
 				} else {
-					campoBio.setBorder(BorderFactory.createLineBorder(Color.GREEN, 2));
-					flagBio = true;
+					campoPassword.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
+					flagPassword = false;
+					error.append("La contraseña solo permite letras, numeros y al menos un caracter especial\n");
 				}
 				
-				if(!checkBoxDulce.isSelected() && !checkBoxSalado.isSelected() && !checkBoxSaludable.isSelected()) {
-					textoPreferencias.setBorder(BorderFactory.createLineBorder(Color.RED, 3));
-					flagPreferencias = false;
+				if(password.equals(repetir)) {
+					campoRepetir.setBorder(BorderFactory.createLineBorder(Color.GREEN, 2));
+					flagRepetir = true;
 				} else {
-					textoPreferencias.setBorder(BorderFactory.createLineBorder(Color.GREEN, 3));
-					flagPreferencias = true;
+					campoRepetir.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
+					flagRepetir = false;
+					error.append("Las contraseñas no coinciden");
 				}
+				
+				if(!correo.isBlank() && correo.matches(VALID_EMAIL)) {
+					campocorreo.setBorder(BorderFactory.createLineBorder(Color.GREEN, 2));
+					flagcorreo = true;
+				} else {
+					campocorreo.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
+					flagcorreo = false;
+					error.append("El correo no es valido\n");
+				}
+				
 				
 				if(opcionesTerminos.getSelection() == null || opcionesTerminos.getSelection().getActionCommand().equals("No")) {
 					textoTerminos.setBorder(BorderFactory.createLineBorder(Color.RED, 3));
@@ -378,32 +482,25 @@ public class AuthView extends JFrame{
 				} else {
 					textoTerminos.setBorder(BorderFactory.createLineBorder(Color.GREEN, 3));
 					flagTerminos = true;
+					error.append("Debe aceptar los terminos");
 				}
-				if(flagUsuario && flagBio && flagPreferencias && flagTerminos) {
-					String usuario = campoUsuario.getText();
-					String bio = campoBio.getText();
-					StringBuilder preferencias = new StringBuilder();
-					if(checkBoxDulce.isSelected()) {
-						preferencias.append("Dulce, ");
-					}
-					if(checkBoxSalado.isSelected()) {
-						preferencias.append("Salado, ");
-					}
-					if(checkBoxSaludable.isSelected()) {
-						preferencias.append("Saludable, ");
-					}
-					String colonia = (String) elegirColonia.getSelectedItem();
-					
-					functions.registro(usuario, bio, preferencias.toString(), colonia);
-					
+				
+				if(flagNombre && flagApellidos && flagEmpresa && flagCargo && flagUsuario
+						&& flagPassword && flagRepetir && flagcorreo && flagTerminos) {
+					functions.registro(nombre, apellidos, empresa, ambito, cargo, usuario, password, correo);
 					JOptionPane.showMessageDialog(frame, "Se ha registrado exitosamente", "Registro Exitoso", JOptionPane.INFORMATION_MESSAGE);
+					login();
+				} else {
+					String mensajeError = "No se pudo completar el registro por que hay uno o mas campos invalidos o vacios:\n"
+							+ error.toString();
+					JOptionPane.showMessageDialog(frame, mensajeError, "Error", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
 		
 		JLabel etiquetaCrearCuenta = new JLabel("¿Ya tiene una cuenta? Iniciar sesión");
 		etiquetaCrearCuenta.setFont(fuenteChica);
-		etiquetaCrearCuenta.setBounds(170, 400, 160, 20);
+		etiquetaCrearCuenta.setBounds(170, 510, 160, 20);
 		panelRegistro.add(etiquetaCrearCuenta);
 		
 		etiquetaCrearCuenta.addMouseListener(new MouseListener() {
@@ -426,7 +523,7 @@ public class AuthView extends JFrame{
 		});
 		this.add(panelRegistro);
 		
-		this.setMinimumSize(new Dimension(500,500));
+		this.setMinimumSize(new Dimension(500,600));
 		this.setSize(getMinimumSize());
 		this.setLocationRelativeTo(null);
 		this.revalidate();
