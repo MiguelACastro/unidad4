@@ -39,6 +39,7 @@ import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
 import controllers.AuthController;
+import controllers.HomeController;
 import models.AuthModel;
 
 public class AuthView extends JFrame{
@@ -183,6 +184,7 @@ public class AuthView extends JFrame{
 		botonLogin.setFont(fuenteMediana);
 		botonLogin.setBounds(192, 250, 100, 30);
 		panelLogin.add(botonLogin);
+		JFrame frame = this;
 		botonLogin.addActionListener(new ActionListener() {
 			
 			@Override
@@ -206,7 +208,8 @@ public class AuthView extends JFrame{
 				
 				if(flag1 && flag2) {
 					if(functions.autenticar(campoUsuario.getText(), paswd)) {
-						home();
+						frame.dispose();
+						new HomeController().home();
 					}
 					else {
 						JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos", "Credenciales incorrectas", JOptionPane.ERROR_MESSAGE);
@@ -528,32 +531,5 @@ public class AuthView extends JFrame{
 		this.setLocationRelativeTo(null);
 		this.revalidate();
 		this.repaint();
-	}
-
-	public void home( ) {
-		
-		JPanel panelHome = new JPanel(new BorderLayout());
-		panelHome.setPreferredSize(new Dimension(600,600));
-		
-		JLabel labelTitulo = new JLabel("Bienvenido!");
-		labelTitulo.setHorizontalAlignment(SwingConstants.CENTER);
-		labelTitulo.setFont(fuenteTitulo);
-		panelHome.add(labelTitulo, BorderLayout.NORTH);
-		
-		JButton logout = new JButton("Logout");
-		logout.setPreferredSize(new Dimension(80, 50));
-		logout.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				login();
-			}
-		});
-		panelHome.add(logout, BorderLayout.SOUTH);
-		
-		this.getContentPane().removeAll();
-		this.add(panelHome);
-		this.pack();
-		this.setLocationRelativeTo(null);
 	}
 }
