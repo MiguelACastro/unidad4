@@ -38,7 +38,9 @@ import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
 
 import controllers.AuthController;
+import controllers.ProductController;
 import models.AuthModel;
+import models.ProductModel;
 
 public class HomeView extends JFrame{
 
@@ -102,7 +104,7 @@ public class HomeView extends JFrame{
 		productos.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				JOptionPane.showMessageDialog(null, "Hola", "Productos", JOptionPane.INFORMATION_MESSAGE);
+				mostrar(new ProductController(new ProductModel(), new ProductView()).productos());
 			}
 		});
 		panelNavegacion.add(productos);
