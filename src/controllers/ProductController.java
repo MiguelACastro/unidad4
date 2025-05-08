@@ -5,6 +5,7 @@ import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
 
 import models.ProductModel;
+import models.Producto;
 import views.ProductView;
 
 public class ProductController {
@@ -23,6 +24,10 @@ public class ProductController {
 	
 	public void getProductos() {
 		vista.setProductos(modelo.getProductos());
+	}
+	
+	public void addProducto(Producto producto) {
+		modelo.addProducto(producto);
 	}
 	
 }
