@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -36,7 +37,7 @@ public class ProductView {
 		panelProducto.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
 		
 		controller.getProductos();
-		
+				
 		JScrollPane pane = new JScrollPane(tablaProductos);
 		panelProducto.add(pane, BorderLayout.CENTER);
 		
@@ -54,6 +55,17 @@ public class ProductView {
 		});
 		panelBoton.add(botonActualizar);
 		
+		JButton botonEliminar = new JButton("Borrar");
+		botonEliminar.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				eliminarProducto();
+				
+			}
+		});
+		panelBoton.add(botonEliminar);
+		
 		JButton botonAdd = new JButton("Añadir");
 		botonAdd.addActionListener(new ActionListener() {
 			@Override
@@ -66,6 +78,35 @@ public class ProductView {
 		return panelProducto;
 	}
 	
+	public void eliminarProducto() {
+		JPanel panelEliminar = new JPanel();
+		panelEliminar.setLayout(new BoxLayout(panelEliminar, BoxLayout.Y_AXIS));
+		
+		JLabel idLabel = new JLabel("ID");
+		panelEliminar.add(idLabel);
+		
+		JTextField idField = new JTextField();
+		panelEliminar.add(idField);
+		
+		String[] opciones = {"Cancelar", "Eliminar"};
+		
+		int agregar = JOptionPane.showOptionDialog(panelProducto.getTopLevelAncestor(), panelEliminar, "Eliminar producto"
+				, JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, opciones, opciones[0]);
+		
+		if(agregar == 1) {
+			String mensaje = "¿Esta seguro que desea eliminar el objeto con ID: %s?"
+					.formatted(idField.getText());
+			
+			String[] opcionesConfirmacion = {"Si", "No"};
+			int confirmar = JOptionPane.showOptionDialog(panelProducto.getTopLevelAncestor(), mensaje, "Confirmar", 
+					JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, opcionesConfirmacion, opcionesConfirmacion[1]);
+			if(confirmar == 0) {
+				int id = Integer.valueOf(idField.getText());
+				controller.eliminarProducto(id);
+			}
+		}
+	}
+
 	public void addProduct() {
 		JPanel panelAdd = new JPanel();
 		panelAdd.setLayout(new BoxLayout(panelAdd, BoxLayout.Y_AXIS));

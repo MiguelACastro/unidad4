@@ -5,6 +5,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLClientInfoException;
+import java.util.Iterator;
 
 import javax.management.ObjectName;
 import javax.swing.table.DefaultTableModel;
@@ -68,6 +69,28 @@ public class ProductModel {
 			nuevoProducto.put("stock", producto.getStock());
 			
 			productosNode.add(nuevoProducto);
+			
+			objectMapper.writerWithDefaultPrettyPrinter().writeValue(archivo, root);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void eliminarProducto(int id) {
+		try{
+			File archivo = new File("src/files/products.json");
+			ObjectMapper objectMapper = new ObjectMapper();
+			
+			JsonNode root = objectMapper.readTree(archivo);
+			ArrayNode productosNode = (ArrayNode) root.get("productos");
+
+			Iterator<JsonNode> productos = productosNode.elements();
+			while(productos.hasNext()) {
+				JsonNode producto = productos.next();
+				if(producto.get("id").asInt() == id) {
+					productos.remove();
+				}
+			}
 			
 			objectMapper.writerWithDefaultPrettyPrinter().writeValue(archivo, root);
 		} catch (IOException e) {

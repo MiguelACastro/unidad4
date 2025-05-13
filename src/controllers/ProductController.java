@@ -29,5 +29,9 @@ public class ProductController {
 	public void addProducto(Producto producto) {
 		modelo.addProducto(producto);
 	}
+
+	public void eliminarProducto(int id) {
+		modelo.eliminarProducto(id);
+	}
 	
 }

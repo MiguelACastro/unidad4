@@ -50,11 +50,6 @@
     "precio" : 89.95,
     "stock" : 40
   }, {
-    "id" : 11,
-    "nombre" : "Router TP-Link",
-    "precio" : 55.5,
-    "stock" : 30
-  }, {
     "id" : 12,
     "nombre" : "Webcam Logitech HD",
     "precio" : 75.0,
@@ -84,11 +79,6 @@
     "nombre" : "Micro SD 128GB",
     "precio" : 22.5,
     "stock" : 60
-  }, {
-    "id" : 18,
-    "nombre" : "Laptop ASUS Ryzen 7",
-    "precio" : 950.0,
-    "stock" : 13
   }, {
     "id" : 19,
     "nombre" : "Control Xbox Inalámbrico",
