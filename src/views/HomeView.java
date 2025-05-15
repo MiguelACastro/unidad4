@@ -39,6 +39,7 @@ import org.jfree.data.general.DefaultPieDataset;
 
 import controllers.AuthController;
 import controllers.ProductController;
+import controllers.UserController;
 import models.AuthModel;
 import models.ProductModel;
 
@@ -90,7 +91,7 @@ public class HomeView extends JFrame{
 		usuarios.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				JOptionPane.showMessageDialog(null, "Hola", "Usuarios", JOptionPane.INFORMATION_MESSAGE);
+				mostrar(new UserController().users());
 			}
 		});
 		panelNavegacion.add(usuarios);

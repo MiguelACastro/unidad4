@@ -1,0 +1,45 @@
+package models;
+
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.ArrayList;
+
+public class UserModel {
+	public ArrayList<User> get() {
+		ArrayList<User> users = new ArrayList<User>();
+		
+		String query = "SELECT * FROM users";
+		Connection conn = null;
+		Statement stmt = null;
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/unidad4", "root", "G2Uaw6xzdO");
+			stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			
+			while (rs.next()) {
+				int userId = rs.getInt(1);
+				String name = rs.getString(2);
+				String email = rs.getString(3);
+				String role = rs.getString(4);
+				String phone = rs.getString(5);
+				Date createdAt = rs.getDate(6);
+				Date updatedAt = rs.getDate(7);
+				
+				users.add(new User(userId, name, email, role, phone, createdAt, updatedAt));
+			}
+			rs.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				stmt.close();
+				conn.close();
+			} catch (Exception e) {}
+		}
+		return users;
+	}
+}
