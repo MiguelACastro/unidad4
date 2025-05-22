@@ -11,13 +11,17 @@ import views.UserView;
 public class UserController {
 
 	private UserView vista;
-	
+	private UserModel modelo;
 	public UserController() {
 		vista = new UserView();
+		modelo = new UserModel();
 	}
 	
 	public JPanel users() {
-		UserModel modelo = new UserModel();
 		return vista.users(modelo.get());
+	}
+	
+	public boolean addUser(User usuario) {
+		return modelo.addUser(usuario);
 	}
 }

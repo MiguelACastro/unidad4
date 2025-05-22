@@ -3,6 +3,7 @@ package models;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -16,7 +17,7 @@ public class UserModel {
 		Statement stmt = null;
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/unidad4", "root", "G2Uaw6xzdO");
+			conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/test", "root", "G2Uaw6xzdO");
 			stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			
@@ -41,5 +42,28 @@ public class UserModel {
 			} catch (Exception e) {}
 		}
 		return users;
+	}
+	public boolean addUser(User usuario)
+	{
+		String query = "INSERT INTO users (name, email, `role`, phone) VALUES (?, ?, ?, ?)";
+		
+		try (
+				Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/test", "root", "G2Uaw6xzdO");
+				PreparedStatement stmt = conn.prepareStatement(query);
+			){
+			stmt.setString(1, usuario.getName());
+			stmt.setString(2, usuario.getEmail());
+			stmt.setString(3, usuario.getRole());
+			stmt.setString(4, usuario.getPhone());
+			int rs = stmt.executeUpdate();
+			 
+			if(rs > 0) 
+				return true; 
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		return false;
 	}
 }
