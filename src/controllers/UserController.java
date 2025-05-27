@@ -12,6 +12,7 @@ public class UserController {
 
 	private UserView vista;
 	private UserModel modelo;
+	
 	public UserController() {
 		vista = new UserView();
 		modelo = new UserModel();
@@ -23,5 +24,13 @@ public class UserController {
 	
 	public boolean addUser(User usuario) {
 		return modelo.addUser(usuario);
+	}
+	
+	public JPanel updateUser(User userToUpdate) {
+		return vista.updateUser(userToUpdate);
+	}
+	
+	public boolean update(User user) {
+		return modelo.updateUser(user);
 	}
 }

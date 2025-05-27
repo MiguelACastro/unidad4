@@ -15,7 +15,9 @@ import java.util.Optional;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -23,10 +25,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 
-import controllers.HomeController;
 import controllers.UserController;
-import models.Producto;
 import models.User;
 
 public class UserView {
@@ -50,6 +51,8 @@ public class UserView {
 		model.addColumn("Telefono");
 		model.addColumn("Fecha de creacion");
 		model.addColumn("Fecha de actualizacion");
+		model.addColumn("Actualizar");
+		model.addColumn("Eliminar");
 		
 		for (Iterator iterator = users.iterator(); iterator.hasNext();) {
 			User user = (User) iterator.next();
@@ -70,12 +73,19 @@ public class UserView {
 					user.getRole(),
 					phone,
 					createdAt,
-					updatedAt
+					updatedAt,
+					"✏️",
+					"❌"
 			};
 			model.addRow(row);
 		}
 		tablaUsers.setModel(model);
+		tablaUsers.getColumn("Actualizar").setCellRenderer(new ButtonRenderer());
+		tablaUsers.getColumn("Actualizar").setCellEditor(new ButtonEditor(new JCheckBox(), users, this));
+
+		tablaUsers.getColumn("Eliminar").setCellRenderer(new ButtonRenderer());
 		
+		tablaUsers.getColumn("Id").setMaxWidth(30);
 		JScrollPane pane = new JScrollPane(tablaUsers);
 		panelUsers.add(pane, BorderLayout.CENTER);
 		
@@ -98,7 +108,7 @@ public class UserView {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				panelUsers.removeAll();
-				panelUsers.add(addProduct());
+				panelUsers.add(addUser());
 				panelUsers.revalidate();
 				panelUsers.repaint();
 			}
@@ -109,7 +119,7 @@ public class UserView {
 	}
 	
 
-	public JPanel addProduct() {
+	public JPanel addUser() {
 		JPanel panelAdd = new JPanel();
 		panelAdd.setLayout(new BoxLayout(panelAdd, BoxLayout.Y_AXIS));
 
@@ -193,4 +203,149 @@ public class UserView {
 		panelAdd.add(botonCancelar);
 		return panelAdd;
 	}
+
+	public JPanel updateUser(User userToUpdate) {
+		JPanel panelUpdate = new JPanel();
+		panelUpdate.setLayout(new BoxLayout(panelUpdate, BoxLayout.Y_AXIS));
+
+		JLabel nombreLabel = new JLabel("Nombre");
+		nombreLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+		panelUpdate.add(nombreLabel);
+
+		JTextField nombreField = new JTextField(20);
+		nombreField.setText(userToUpdate.getName());
+		nombreField.setAlignmentX(Component.LEFT_ALIGNMENT);
+		nombreField.setMaximumSize(new Dimension(200, 25));
+		nombreField.setPreferredSize(new Dimension(200, 25));
+		panelUpdate.add(nombreField);
+		panelUpdate.add(Box.createVerticalGlue());
+
+		JLabel emailLabel = new JLabel("Email");
+		emailLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+		panelUpdate.add(emailLabel);
+
+		JTextField emailField = new JTextField(20);
+		emailField.setText(userToUpdate.getEmail());
+		emailField.setAlignmentX(Component.LEFT_ALIGNMENT);
+		emailField.setMaximumSize(new Dimension(200, 25));
+		emailField.setPreferredSize(new Dimension(200, 25));
+		panelUpdate.add(emailField);
+		panelUpdate.add(Box.createVerticalGlue());
+
+		JLabel rolLabel = new JLabel("rol");
+		rolLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+		panelUpdate.add(rolLabel);
+
+		JTextField rolField = new JTextField(20);
+		rolField.setText(userToUpdate.getRole());
+		rolField.setAlignmentX(Component.LEFT_ALIGNMENT);
+		rolField.setMaximumSize(new Dimension(200, 25));
+		rolField.setPreferredSize(new Dimension(200, 25));
+		panelUpdate.add(rolField);
+		panelUpdate.add(Box.createVerticalGlue());
+
+		JLabel telefonoLabel = new JLabel("telefono");
+		telefonoLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+		panelUpdate.add(telefonoLabel);
+
+		JTextField telefonoField = new JTextField(20);
+		telefonoField.setText(userToUpdate.getPhone());
+		telefonoField.setAlignmentX(Component.LEFT_ALIGNMENT);
+		telefonoField.setMaximumSize(new Dimension(200, 25));
+		telefonoField.setPreferredSize(new Dimension(200, 25));
+		panelUpdate.add(telefonoField);
+		panelUpdate.add(Box.createVerticalGlue());
+
+		JButton botonGuardar = new JButton("Guardar");
+		botonGuardar.setAlignmentX(Component.LEFT_ALIGNMENT);
+		botonGuardar.addActionListener(_ -> {
+			String nombre = nombreField.getText();
+			String email = emailField.getText();
+			String rol = rolField.getText();
+			String telefono = telefonoField.getText();
+			if(telefono.isBlank()) {
+				telefono = null;
+			}
+			userToUpdate.setName(nombre);
+			userToUpdate.setEmail(email);
+			userToUpdate.setRole(rol);
+			userToUpdate.setPhone(telefono);
+			
+			boolean resultado = new UserController().update(userToUpdate);
+			if(resultado) {				
+				panelUsers.removeAll();
+				panelUsers.add(new UserController().users());
+				panelUsers.revalidate();
+				panelUsers.repaint();
+			} else {
+				JOptionPane.showMessageDialog(panelUsers.getTopLevelAncestor(), 
+						"No se pudo actualizar el usuario", "Error", JOptionPane.ERROR_MESSAGE);
+			}
+		});
+		panelUpdate.add(botonGuardar);
+		
+		panelUpdate.add(Box.createVerticalStrut(10));
+		JButton botonCancelar= new JButton("Cancelar");
+		botonCancelar.setAlignmentX(Component.LEFT_ALIGNMENT);
+		botonCancelar.addActionListener(_ -> {
+			panelUsers.removeAll();
+			panelUsers.add(new UserController().users());
+			panelUsers.revalidate();
+			panelUsers.repaint();
+		});
+		panelUpdate.add(botonCancelar);
+		return panelUpdate;
+	}
+	class ButtonRenderer extends JButton implements TableCellRenderer {
+	    public ButtonRenderer() {
+	        setOpaque(true);
+	    }
+	    public Component getTableCellRendererComponent(JTable table, Object value,
+	            boolean isSelected, boolean hasFocus, int row, int column) {
+	        setText((value == null) ? "" : value.toString());
+	        return this;
+	    }
+	}
+
+	class ButtonEditor extends DefaultCellEditor {
+	    private JButton button;
+	    private String label;
+	    private boolean isPushed;
+	    private ArrayList<User> users;
+	    private UserView userView;
+	    private int row;
+
+	    public ButtonEditor(JCheckBox checkBox, ArrayList<User> users, UserView userView) {
+	        super(checkBox);
+	        this.users = users;
+	        this.userView = userView;
+	        button = new JButton();
+	        button.setOpaque(true);
+	        button.addActionListener(new ActionListener() {
+	            public void actionPerformed(ActionEvent e) {
+	                fireEditingStopped();
+	                User userToUpdate = users.get(row);
+	                userView.panelUsers.removeAll();
+	                userView.panelUsers.add(userView.updateUser(userToUpdate));
+	                userView.panelUsers.revalidate();
+	                userView.panelUsers.repaint();
+	            }
+	        });
+	    }
+
+	    public Component getTableCellEditorComponent(JTable table, Object value,
+	            boolean isSelected, int row, int column) {
+	        this.row = row;
+	        label = (value == null) ? "" : value.toString();
+	        button.setText(label);
+	        isPushed = true;
+	        return button;
+	    }
+
+	    public Object getCellEditorValue() {
+	        isPushed = false;
+	        return label;
+	    }
+	}
+
 }

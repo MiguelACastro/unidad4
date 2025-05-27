@@ -41,5 +41,21 @@ public class User {
 	}
 	public Date getUpdateAt() {
 		return updatedAt;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}	
 }

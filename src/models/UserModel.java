@@ -43,9 +43,10 @@ public class UserModel {
 		}
 		return users;
 	}
+	
 	public boolean addUser(User usuario)
 	{
-		String query = "INSERT INTO users (name, email, `role`, phone) VALUES (?, ?, ?, ?)";
+		String query = "INSERT INTO users (name, email, `role`, phone, create_at) VALUES (?, ?, ?, ?, curdate())";
 		
 		try (
 				Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/test", "root", "G2Uaw6xzdO");
@@ -55,6 +56,31 @@ public class UserModel {
 			stmt.setString(2, usuario.getEmail());
 			stmt.setString(3, usuario.getRole());
 			stmt.setString(4, usuario.getPhone());
+			int rs = stmt.executeUpdate();
+			 
+			if(rs > 0) 
+				return true; 
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		return false;
+	}
+	
+	public boolean updateUser(User usuario)
+	{
+		String query = "UPDATE users SET name=?, email=?, `role`=?, phone=?, update_at=curdate() WHERE id=?";
+		
+		try (
+				Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/test", "root", "G2Uaw6xzdO");
+				PreparedStatement stmt = conn.prepareStatement(query);
+			){
+			stmt.setString(1, usuario.getName());
+			stmt.setString(2, usuario.getEmail());
+			stmt.setString(3, usuario.getRole());
+			stmt.setString(4, usuario.getPhone());
+			stmt.setInt(5, usuario.getId());
 			int rs = stmt.executeUpdate();
 			 
 			if(rs > 0) 
