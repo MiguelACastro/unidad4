@@ -92,4 +92,24 @@ public class UserModel {
 		}
 		return false;
 	}
+
+	public boolean deleteUser(int id) {
+		String query = "DELETE FROM users WHERE id=?";
+		
+		try (
+				Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/test", "root", "G2Uaw6xzdO");
+				PreparedStatement stmt = conn.prepareStatement(query);
+			){
+			stmt.setInt(1, id);
+			int rs = stmt.executeUpdate();
+			 
+			if(rs > 0) 
+				return true; 
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		return false;
+	}
 }

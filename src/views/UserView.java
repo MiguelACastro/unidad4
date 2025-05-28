@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.util.Date;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Locale;
 import java.util.Optional;
 
 import javax.swing.BorderFactory;
@@ -84,24 +85,14 @@ public class UserView {
 		tablaUsers.getColumn("Actualizar").setCellEditor(new ButtonEditor(new JCheckBox(), users, this));
 
 		tablaUsers.getColumn("Eliminar").setCellRenderer(new ButtonRenderer());
+		tablaUsers.getColumn("Eliminar").setCellEditor(new ButtonEditor(new JCheckBox(), users, this));
 		
-		tablaUsers.getColumn("Id").setMaxWidth(30);
 		JScrollPane pane = new JScrollPane(tablaUsers);
 		panelUsers.add(pane, BorderLayout.CENTER);
 		
 		JPanel panelBoton = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 		panelBoton.setBorder(BorderFactory.createEmptyBorder(35, 0, 0, 0));
 		panelUsers.add(panelBoton, BorderLayout.NORTH);
-		
-		JButton botonEliminar = new JButton("Borrar");
-		botonEliminar.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				
-			}
-		});
-		panelBoton.add(botonEliminar);
 		
 		JButton botonAdd = new JButton("Añadir");
 		botonAdd.addActionListener(new ActionListener() {
@@ -324,11 +315,34 @@ public class UserView {
 	        button.addActionListener(new ActionListener() {
 	            public void actionPerformed(ActionEvent e) {
 	                fireEditingStopped();
-	                User userToUpdate = users.get(row);
-	                userView.panelUsers.removeAll();
-	                userView.panelUsers.add(userView.updateUser(userToUpdate));
-	                userView.panelUsers.revalidate();
-	                userView.panelUsers.repaint();
+	                if("✏️".equals(label)) {
+	                	User userToUpdate = users.get(row);
+	                	userView.panelUsers.removeAll();
+	                	userView.panelUsers.add(userView.updateUser(userToUpdate));
+	                	userView.panelUsers.revalidate();
+	                	userView.panelUsers.repaint();
+	                } else if ("❌".equals(label)) {
+	                	int id = users.get(row).getId();
+	                	int opcion = JOptionPane.showConfirmDialog(userView.tablaUsers.getTopLevelAncestor()
+	                			, "¿Esta seguro que desea borrar este usuario?"
+	                			, "Confirmar", JOptionPane.YES_NO_OPTION);
+	                	if(opcion==JOptionPane.YES_OPTION) {
+	                		boolean eliminado = new UserController().deleteUser(id);
+	            			if(eliminado) {
+	                            users.remove(row);
+	                            ((DefaultTableModel) userView.tablaUsers.getModel()).removeRow(row);
+	                            userView.tablaUsers.revalidate();
+	                            userView.tablaUsers.repaint();
+	                            JOptionPane.showMessageDialog(userView.tablaUsers.getTopLevelAncestor()
+	                            		, "El usuario se elimino correctamente"
+	                            		, "Usuario eliminado", JOptionPane.INFORMATION_MESSAGE);
+	            			} else {
+	            				JOptionPane.showMessageDialog(userView.tablaUsers.getTopLevelAncestor()
+	            						, "No se pudo eliminar el usuario"
+	            						, "Usuario no eliminado", JOptionPane.ERROR_MESSAGE);	            				
+	            			}
+	                	}
+	                }
 	            }
 	        });
 	    }

@@ -33,4 +33,8 @@ public class UserController {
 	public boolean update(User user) {
 		return modelo.updateUser(user);
 	}
+
+	public boolean deleteUser(int id) {
+		return modelo.deleteUser(id);
+	}
 }
